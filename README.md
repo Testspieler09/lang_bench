@@ -54,18 +54,6 @@ Results will appear in:
 bench_results_db/
 ```
 
-The database is automatically reset before DB benchmarks via:
-
-```bash
-make db-setup
-```
-
-This:
-
-* Creates `shared/db/`
-* Deletes old `demo.sqlite`
-* Loads schema from `shared/schema.sql`
-
 ## Project Structure
 
 ```
@@ -77,8 +65,6 @@ This:
 ├── swift                         # Swift source
 ├── shared
 │   ├── dataset                   # Sorting datasets
-│   ├── db
-│   │   └── demo.sqlite           # SQLite database (generated)
 │   ├── generator.py              # Dataset generator
 │   └── schema.sql                # SQLite schema
 ├── bin                           # Built binaries
@@ -102,7 +88,6 @@ bin/
 * **Go** >= 1.25
 * **Swift** >= 6.2
 * **Python 3**
-* **SQLite3 CLI** (for `db-setup`)
 * **Delta** benchmark tool
 
 If Delta is not in your PATH:
@@ -230,9 +215,9 @@ These are the commands Delta runs internally:
 ### DB CRUD
 
 ```bash
-./bin/rust_bench --bench db-crud --db shared/db/demo.sqlite --size 1000
-./bin/go_bench --bench db-crud --db shared/db/demo.sqlite --size 1000
-./bin/swift_bench --bench db-crud --db shared/db/demo.sqlite --size 1000
+./bin/rust_bench --bench db-crud --db :memory: --size 1000
+./bin/go_bench --bench db-crud --db :memory: --size 1000
+./bin/swift_bench --bench db-crud --db :memory: --size 1000
 ```
 
 ## Design Notes

@@ -1,9 +1,6 @@
 # ==========
 # Variables
 # ==========
-DB_FILE=shared/db/demo.sqlite
-DB_SCHEMA=shared/schema.sql
-
 RUST_BIN=rust_bench
 GO_BIN=go_bench
 SWIFT_BIN=swift_bench
@@ -33,8 +30,6 @@ help:
 	@echo "  make gen-demo-data           Generate demo datasets"
 	@echo "  make force-gen-demo-data     Regenerate datasets (overwrite)"
 	@echo ""
-	@echo "  make db-setup                Create and reset SQLite database"
-	@echo ""
 	@echo "  make build                   Build all benchmarks"
 	@echo "  make build-rust              Build Rust benchmark"
 	@echo "  make build-go                Build Go benchmark"
@@ -59,16 +54,6 @@ force-gen-demo-data:
 	python3 shared/generator.py --size 10000 --output shared/dataset/random_10k.txt --force
 	python3 shared/generator.py --size 100000 --output shared/dataset/random_100k.txt --force
 	python3 shared/generator.py --size 1000000 --output shared/dataset/random_1m.txt --force
-
-# ======================
-# Database Setup
-# ======================
-
-db-setup:
-	@echo "Setting up SQLite database..."
-	mkdir -p shared/db
-	rm -f $(DB_FILE)
-	sqlite3 $(DB_FILE) < $(DB_SCHEMA)
 
 # ==========
 # Build Targets
@@ -103,7 +88,7 @@ bench:
 	mkdir -p $(DELTA_OUTPUT_DIR)
 	$(DELTA_BIN) -f $(DELTA_CONFIG) -o $(DELTA_OUTPUT_DIR)
 
-bench-db: db-setup
+bench-db:
 	@echo "Running DB benchmarks with delta..."
 	mkdir -p $(DELTA_DB_OUTPUT_DIR)
 	$(DELTA_BIN) -f $(DELTA_DB_CONFIG) -o $(DELTA_DB_OUTPUT_DIR)
@@ -119,4 +104,4 @@ clean:
 	cd swift && swift package clean
 	cd go && rm -f $(GO_BIN)
 
-.PHONY: help gen-demo-data force-gen-demo-data db-setup build build-rust build-go build-swift bench bench-db clean
+.PHONY: help gen-demo-data force-gen-demo-data build build-rust build-go build-swift bench bench-db clean

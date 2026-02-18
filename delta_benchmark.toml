@@ -6,7 +6,7 @@
 threads = 1
 
 # Number of iterations delta runs per benchmark (default: 200)
-iterations = 10
+iterations = 15
 
 # Maximum allowed runtime before killing a benchmark (e.g., "60s", "120s")
 max_execution_time = "60s"
