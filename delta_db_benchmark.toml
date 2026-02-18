@@ -1,0 +1,31 @@
+# =======================
+# Global Benchmark Config
+# =======================
+
+threads = 1
+iterations = 10
+max_execution_time = "60s"
+memory_sampling_interval = "10ms"
+measure_mem_once = true
+memory_measuring_mode = "timeline"
+warmup_count = 3
+warmup_mode = "interval"
+
+# ======================
+# Database Benchmarks
+# ======================
+
+# Rust DB benchmark
+[[command]]
+cmd = "./bin/rust_bench"
+args = ["--bench", "db-crud", "--db", "shared/db/demo.sqlite", "--size", "100000000"]
+
+# Go DB benchmark
+[[command]]
+cmd = "./bin/go_bench"
+args = ["--bench", "db-crud", "--db", "shared/db/demo.sqlite", "--size", "100000000"]
+
+# Swift DB benchmark
+[[command]]
+cmd = "./bin/swift_bench"
+args = ["--bench", "db-crud", "--db", "shared/db/demo.sqlite", "--size", "100000000"]

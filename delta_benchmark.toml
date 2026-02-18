@@ -76,36 +76,36 @@ args = ["--bench", "fib-iter", "--size", "1000000"]
 # Note: ensure shared/dataset/random_100k.txt exists
 [[command]]
 cmd = "./bin/rust_bench"
-args = ["--bench", "sort-bubble", "--size", "10000", "--input", "shared/dataset/random_10k.txt"]
+args = ["--bench", "sort-bubble", "--input", "shared/dataset/random_10k.txt"]
 
 [[command]]
 cmd = "./bin/go_bench"
-args = ["--bench", "sort-bubble", "--size", "10000", "--input", "shared/dataset/random_10k.txt"]
+args = ["--bench", "sort-bubble", "--input", "shared/dataset/random_10k.txt"]
 
 [[command]]
 cmd = "./bin/swift_bench"
-args = ["--bench", "sort-bubble", "--size", "10000", "--input", "shared/dataset/random_10k.txt"]
+args = ["--bench", "sort-bubble", "--input", "shared/dataset/random_10k.txt"]
 
 [[command]]
 cmd = "./bin/rust_bench"
-args = ["--bench", "sort-quick", "--size", "100000", "--input", "shared/dataset/random_100k.txt"]
+args = ["--bench", "sort-quick", "--input", "shared/dataset/random_100k.txt"]
 
 [[command]]
 cmd = "./bin/go_bench"
-args = ["--bench", "sort-quick", "--size", "100000", "--input", "shared/dataset/random_100k.txt"]
+args = ["--bench", "sort-quick", "--input", "shared/dataset/random_100k.txt"]
 
 [[command]]
 cmd = "./bin/swift_bench"
-args = ["--bench", "sort-quick", "--size", "100000", "--input", "shared/dataset/random_100k.txt"]
+args = ["--bench", "sort-quick", "--input", "shared/dataset/random_100k.txt"]
 
 [[command]]
 cmd = "./bin/rust_bench"
-args = ["--bench", "sort-merge", "--size", "1000000", "--input", "shared/dataset/random_1m.txt"]
+args = ["--bench", "sort-merge", "--input", "shared/dataset/random_1m.txt"]
 
 [[command]]
 cmd = "./bin/go_bench"
-args = ["--bench", "sort-merge", "--size", "1000000", "--input", "shared/dataset/random_1m.txt"]
+args = ["--bench", "sort-merge", "--input", "shared/dataset/random_1m.txt"]
 
 [[command]]
 cmd = "./bin/swift_bench"
-args = ["--bench", "sort-merge", "--size", "1000000", "--input", "shared/dataset/random_1m.txt"]
+args = ["--bench", "sort-merge", "--input", "shared/dataset/random_1m.txt"]

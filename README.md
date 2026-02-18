@@ -1,32 +1,34 @@
 # Cross-Language Benchmark Suite
 
-This repository provides a **cross-language benchmarking framework** for comparing Rust, Go, and Swift performance across various tasks, including loops, Fibonacci calculations, sorting algorithms, and more. Benchmarks are executed using [**Delta**](https://github.com/Testspieler09/delta), ensuring consistent measurement and result reporting.
+This repository provides a **cross-language benchmarking framework** for comparing **Rust, Go, and Swift** performance across multiple workloads:
+
+* CPU loops
+* Fibonacci (recursive & iterative)
+* Sorting algorithms
+* SQLite DB CRUD benchmark
+
+Benchmarks are executed using [**Delta**](https://github.com/Testspieler09/delta) to ensure consistent measurement and structured output.
 
 ## Quick Start (All-in-One)
 
-This will **generate datasets, build all benchmarks, and run them** using Delta:
+Generate datasets, build all languages, and run CPU benchmarks:
 
 ```bash
-# 1. Generate all demo datasets
 make gen-demo-data
-
-# 2. Build Rust, Go, and Swift benchmarks
 make build
-
-# 3. Run all benchmarks with Delta
 make bench
 ```
 
-> Or in a single command line (Unix shells):
+Or in one line:
 
 ```bash
 make gen-demo-data build bench
 ```
 
-> If Delta is local:
+If Delta is built locally:
 
 ```bash
-DELTA_BIN=target/release/delta make gen-demo-data build bench
+DELTA_BIN=target/release/delta make bench
 ```
 
 Results will appear in:
@@ -35,19 +37,52 @@ Results will appear in:
 bench_results/
 ```
 
+## Database Benchmarks (SQLite CRUD)
+
+The suite also includes a **cross-language SQLite CRUD benchmark**.
+
+To run DB benchmarks:
+
+```bash
+make build
+make bench-db
+```
+
+Results will appear in:
+
+```
+bench_results_db/
+```
+
+The database is automatically reset before DB benchmarks via:
+
+```bash
+make db-setup
+```
+
+This:
+
+* Creates `shared/db/`
+* Deletes old `demo.sqlite`
+* Loads schema from `shared/schema.sql`
+
 ## Project Structure
 
 ```
 .
-├── delta_benchmark.toml         # Delta benchmark config
-├── go                           # Go benchmark source
-├── rust                         # Rust benchmark source
-├── swift                        # Swift benchmark source
+├── delta_benchmark.toml          # CPU benchmark config
+├── delta_db_benchmark.toml       # DB benchmark config
+├── go                            # Go source
+├── rust                          # Rust source
+├── swift                         # Swift source
 ├── shared
-│   ├── dataset                  # Shared input datasets
-│   ├── generator.py             # Python dataset generator
-│   └── schema.sql               # Optional database schema for future benchmarks
-├── Makefile                     # Build and benchmark automation
+│   ├── dataset                   # Sorting datasets
+│   ├── db
+│   │   └── demo.sqlite           # SQLite database (generated)
+│   ├── generator.py              # Dataset generator
+│   └── schema.sql                # SQLite schema
+├── bin                           # Built binaries
+├── Makefile
 ├── README.md
 └── LICENSE
 ```
@@ -63,49 +98,49 @@ bin/
 
 ## Prerequisites
 
-* **Rust** >= 1.70 (for Rust benchmarks)
-* **Go** >= 1.22 (for Go benchmarks)
-* **Swift** >= 5.9 (for Swift benchmarks)
-* **Python 3** (for dataset generation)
-* **Delta** benchmark tool (local binary or system PATH)
+* **Rust** >= 1.93
+* **Go** >= 1.25
+* **Swift** >= 6.2
+* **Python 3**
+* **SQLite3 CLI** (for `db-setup`)
+* **Delta** benchmark tool
 
-> If Delta is compiled locally, you can set its path with the `DELTA_BIN` environment variable:
+If Delta is not in your PATH:
 
 ```bash
 export DELTA_BIN=target/release/delta
 ```
 
-## Setup
+## Available Make Targets
 
-### 1. Generate Input Datasets
-
-Datasets are required for sorting benchmarks. You can generate them with:
+### Help
 
 ```bash
-# Generate default datasets
-make gen-demo-data
+make help
+```
 
-# Force regeneration (overwrite existing files)
+### Dataset Generation
+
+```bash
+make gen-demo-data
 make force-gen-demo-data
 ```
 
-This will create:
+Generates:
 
 * `shared/dataset/random_10k.txt`
 * `shared/dataset/random_100k.txt`
 * `shared/dataset/random_1m.txt`
 
----
+### Build
 
-### 2. Build Benchmarks
-
-Build all language binaries:
+Build all languages:
 
 ```bash
 make build
 ```
 
-Or build individual languages:
+Or individually:
 
 ```bash
 make build-rust
@@ -113,76 +148,107 @@ make build-go
 make build-swift
 ```
 
-> Binaries will be placed in the `bin/` directory.
+Binaries are placed in:
 
-## Running Benchmarks
+```
+./bin
+```
 
-The `bench` target executes all benchmarks using **Delta** and stores results in a directory (`bench_results` by default):
+### Benchmarks
+
+#### CPU Benchmarks
 
 ```bash
 make bench
 ```
 
-### Environment Variable
+Uses:
 
-If Delta is not in your PATH, set `DELTA_BIN`:
-
-```bash
-DELTA_BIN=target/release/delta make bench
+```
+delta_benchmark.toml
 ```
 
-### Benchmark Output
-
-* Execution times and memory usage are recorded per language and per benchmark.
-* Results are stored in:
+Output:
 
 ```
 bench_results/
 ```
 
-You can visualize or analyze the output using Delta’s built-in tools.
-
-## Example Benchmarks
-
-Delta runs a variety of benchmarks:
-
-* **Loop** – simple CPU-intensive loop (`size=10_000_000`)
-* **Fibonacci** – recursive and iterative (`size=40` for recursive, larger for iterative)
-* **Sorting algorithms** – bubble, quick, and merge sort on shared datasets
-
-Example CLI calls (internal to Delta):
+#### Database Benchmarks
 
 ```bash
-./bin/rust_bench --bench loop --size 10000000
-./bin/go_bench --bench sort-quick --size 100000 --input shared/dataset/random_100k.txt
-./bin/swift_bench --bench fib-iter --size 1000000
+make bench-db
 ```
 
-## Cleanup
+Uses:
 
-Remove built binaries and clean language-specific artifacts:
+```
+delta_db_benchmark.toml
+```
+
+Output:
+
+```
+bench_results_db/
+```
+
+### Cleanup
 
 ```bash
 make clean
 ```
 
-* Rust: `cargo clean`
-* Go: removes `bin/go_bench`
-* Swift: `swift package clean`
-* Removes `bin/` folder
+Removes:
 
-## Notes
+* `bin/`
+* Rust target directory
+* Swift build artifacts
+* Go binary
 
-* Benchmarks are **file-driven** for consistent cross-language comparison.
-* The `checksum` of results is returned to prevent the compiler from optimizing away computation.
-* Sorting and Fibonacci recursive benchmarks are intentionally slow to measure performance differences.
-* Additional benchmarks (e.g., DB CRUD, heap sort, multithreaded tasks) can be added via `delta_benchmark.toml`.
+## Example CLI Commands (Manual)
+
+These are the commands Delta runs internally:
+
+### Loop
+
+```bash
+./bin/rust_bench --bench loop --size 10000000
+```
+
+### Sorting
+
+```bash
+./bin/go_bench --bench sort-quick --size 100000 --input shared/dataset/random_100k.txt
+```
+
+### Fibonacci
+
+```bash
+./bin/swift_bench --bench fib-rec --size 40
+```
+
+### DB CRUD
+
+```bash
+./bin/rust_bench --bench db-crud --db shared/db/demo.sqlite --size 1000
+./bin/go_bench --bench db-crud --db shared/db/demo.sqlite --size 1000
+./bin/swift_bench --bench db-crud --db shared/db/demo.sqlite --size 1000
+```
+
+## Design Notes
+
+* Benchmarks return a `checksum` to prevent compiler optimizations.
+* Sorting datasets are shared across languages for fairness.
+* DB benchmarks:
+  * Reset schema each run
+  * Use transactions for realistic performance
+  * Use identical SQL schema across languages
+* Delta ensures consistent timing & reporting.
+* CPU and DB benchmarks are separated into different Delta configs for clarity.
 
 ## References
 
-* [Delta Benchmark Tool](https://github.com/Testspieler09/delta)
+* [Delta](https://github.com/Testspieler09/delta)
 * [Rust](https://www.rust-lang.org/)
 * [Go](https://golang.org/)
 * [Swift](https://swift.org/)
-
-This README is now aligned with your **Makefile** and project layout.

@@ -1,8 +1,12 @@
+mod db_crud;
 mod fibonacci;
 mod r#loop;
 mod sorting;
 
 use std::env;
+use std::path::Path;
+
+use db_crud::run as db_run;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -10,6 +14,7 @@ fn main() {
     let mut bench_name = "";
     let mut size: usize = 0;
     let mut input: Option<String> = None;
+    let mut db_path: Option<&Path> = None;
 
     let mut i = 1;
     while i < args.len() {
@@ -24,6 +29,10 @@ fn main() {
             }
             "--input" => {
                 input = Some(args[i + 1].clone());
+                i += 2;
+            }
+            "--db" => {
+                db_path = Some(Path::new(&args[i + 1]));
                 i += 2;
             }
             _ => i += 1,
@@ -48,6 +57,11 @@ fn main() {
         "sort-merge" => {
             let data = sorting::load_dataset(input.expect("Missing --input"));
             sorting::run_merge(data)
+        }
+
+        "db-crud" => {
+            let path = db_path.expect("--db <file> is required for db-crud");
+            db_run(path, size).expect("DB benchmark failed")
         }
 
         _ => {
