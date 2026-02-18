@@ -1,0 +1,111 @@
+# =======================
+# Global Benchmark Config
+# =======================
+
+# How many threads are used for memory measurement
+threads = 1
+
+# Number of iterations delta runs per benchmark (default: 200)
+iterations = 10
+
+# Maximum allowed runtime before killing a benchmark (e.g., "60s", "120s")
+max_execution_time = "60s"
+
+# How frequently to sample memory usage (for process memory tracking)
+memory_sampling_interval = "10ms"
+
+# Only measure memory once per run instead the number of given iterations
+measure_mem_once = true
+
+# Memory measurement mode:
+# "timeline" collects samples over time; "maximum" takes peak physical RSS
+memory_measuring_mode = "timeline"
+
+# Warmup count: how many pre-runs before measuring
+warmup_count = 3
+
+# Warmup mode — "global" runs all warmups first, "interval" warms up per benchmark
+warmup_mode = "interval"
+
+
+# ======================
+# Benchmark Commands
+# ======================
+
+# Loop: CPU exercise
+[[command]]
+cmd = "./bin/rust_bench"
+args = ["--bench", "loop", "--size", "10000000"]
+
+[[command]]
+cmd = "./bin/go_bench"
+args = ["--bench", "loop", "--size", "10000000"]
+
+[[command]]
+cmd = "./bin/swift_bench"
+args = ["--bench", "loop", "--size", "10000000"]
+
+
+# Fibonacci (recursive & iterative)
+[[command]]
+cmd = "./bin/rust_bench"
+args = ["--bench", "fib-rec", "--size", "40"]
+
+[[command]]
+cmd = "./bin/go_bench"
+args = ["--bench", "fib-rec", "--size", "40"]
+
+[[command]]
+cmd = "./bin/swift_bench"
+args = ["--bench", "fib-rec", "--size", "40"]
+
+[[command]]
+cmd = "./bin/rust_bench"
+args = ["--bench", "fib-iter", "--size", "1000000"]
+
+[[command]]
+cmd = "./bin/go_bench"
+args = ["--bench", "fib-iter", "--size", "1000000"]
+
+[[command]]
+cmd = "./bin/swift_bench"
+args = ["--bench", "fib-iter", "--size", "1000000"]
+
+
+# Sorting: using shared dataset
+# Note: ensure shared/dataset/random_100k.txt exists
+[[command]]
+cmd = "./bin/rust_bench"
+args = ["--bench", "sort-bubble", "--size", "10000", "--input", "shared/dataset/random_10k.txt"]
+
+[[command]]
+cmd = "./bin/go_bench"
+args = ["--bench", "sort-bubble", "--size", "10000", "--input", "shared/dataset/random_10k.txt"]
+
+[[command]]
+cmd = "./bin/swift_bench"
+args = ["--bench", "sort-bubble", "--size", "10000", "--input", "shared/dataset/random_10k.txt"]
+
+[[command]]
+cmd = "./bin/rust_bench"
+args = ["--bench", "sort-quick", "--size", "100000", "--input", "shared/dataset/random_100k.txt"]
+
+[[command]]
+cmd = "./bin/go_bench"
+args = ["--bench", "sort-quick", "--size", "100000", "--input", "shared/dataset/random_100k.txt"]
+
+[[command]]
+cmd = "./bin/swift_bench"
+args = ["--bench", "sort-quick", "--size", "100000", "--input", "shared/dataset/random_100k.txt"]
+
+[[command]]
+cmd = "./bin/rust_bench"
+args = ["--bench", "sort-merge", "--size", "1000000", "--input", "shared/dataset/random_1m.txt"]
+
+[[command]]
+cmd = "./bin/go_bench"
+args = ["--bench", "sort-merge", "--size", "1000000", "--input", "shared/dataset/random_1m.txt"]
+
+[[command]]
+cmd = "./bin/swift_bench"
+args = ["--bench", "sort-merge", "--size", "1000000", "--input", "shared/dataset/random_1m.txt"]
