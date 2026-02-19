@@ -35,68 +35,68 @@ warmup_mode = "interval"
 # Loop: CPU exercise
 [[command]]
 cmd = "./bin/rust_bench"
-args = ["--bench", "loop", "--size", "10000000"]
+args = ["--bench", "loop", "--size", "10000000000"]
 
 [[command]]
 cmd = "./bin/go_bench"
-args = ["--bench", "loop", "--size", "10000000"]
+args = ["--bench", "loop", "--size", "10000000000"]
 
 [[command]]
 cmd = "./bin/swift_bench"
-args = ["--bench", "loop", "--size", "10000000"]
+args = ["--bench", "loop", "--size", "10000000000"]
 
 
 # Fibonacci (recursive & iterative)
 [[command]]
 cmd = "./bin/rust_bench"
-args = ["--bench", "fib-rec", "--size", "40"]
+args = ["--bench", "fib-rec", "--size", "42"]
 
 [[command]]
 cmd = "./bin/go_bench"
-args = ["--bench", "fib-rec", "--size", "40"]
+args = ["--bench", "fib-rec", "--size", "42"]
 
 [[command]]
 cmd = "./bin/swift_bench"
-args = ["--bench", "fib-rec", "--size", "40"]
+args = ["--bench", "fib-rec", "--size", "42"]
 
 [[command]]
 cmd = "./bin/rust_bench"
-args = ["--bench", "fib-iter", "--size", "1000000"]
+args = ["--bench", "fib-iter", "--size", "1000000000"]
 
 [[command]]
 cmd = "./bin/go_bench"
-args = ["--bench", "fib-iter", "--size", "1000000"]
+args = ["--bench", "fib-iter", "--size", "1000000000"]
 
 [[command]]
 cmd = "./bin/swift_bench"
-args = ["--bench", "fib-iter", "--size", "1000000"]
+args = ["--bench", "fib-iter", "--size", "1000000000"]
 
 
 # Sorting: using shared dataset
 # Note: ensure shared/dataset/random_100k.txt exists
 [[command]]
 cmd = "./bin/rust_bench"
-args = ["--bench", "sort-bubble", "--input", "shared/dataset/random_10k.txt"]
+args = ["--bench", "sort-bubble", "--input", "shared/dataset/random_100k.txt"]
 
 [[command]]
 cmd = "./bin/go_bench"
-args = ["--bench", "sort-bubble", "--input", "shared/dataset/random_10k.txt"]
+args = ["--bench", "sort-bubble", "--input", "shared/dataset/random_100k.txt"]
 
 [[command]]
 cmd = "./bin/swift_bench"
-args = ["--bench", "sort-bubble", "--input", "shared/dataset/random_10k.txt"]
+args = ["--bench", "sort-bubble", "--input", "shared/dataset/random_100k.txt"]
 
 [[command]]
 cmd = "./bin/rust_bench"
-args = ["--bench", "sort-quick", "--input", "shared/dataset/random_100k.txt"]
+args = ["--bench", "sort-quick", "--input", "shared/dataset/random_1m.txt"]
 
 [[command]]
 cmd = "./bin/go_bench"
-args = ["--bench", "sort-quick", "--input", "shared/dataset/random_100k.txt"]
+args = ["--bench", "sort-quick", "--input", "shared/dataset/random_1m.txt"]
 
 [[command]]
 cmd = "./bin/swift_bench"
-args = ["--bench", "sort-quick", "--input", "shared/dataset/random_100k.txt"]
+args = ["--bench", "sort-quick", "--input", "shared/dataset/random_1m.txt"]
 
 [[command]]
 cmd = "./bin/rust_bench"

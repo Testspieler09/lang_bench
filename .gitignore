@@ -1,3 +1,4 @@
+.DS_STORE
 bin/
 db/
 bench_results/

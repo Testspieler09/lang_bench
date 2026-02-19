@@ -5,7 +5,7 @@
 threads = 1
 iterations = 15
 max_execution_time = "60s"
-memory_sampling_interval = "10ms"
+memory_sampling_interval = "2s"
 measure_mem_once = false
 memory_measuring_mode = "timeline"
 warmup_count = 2
@@ -18,14 +18,14 @@ warmup_mode = "interval"
 # Rust DB benchmark
 [[command]]
 cmd = "./bin/rust_bench"
-args = ["--bench", "db-crud", "--db", ":memory:", "--size", "1000000"]
+args = ["--bench", "db-crud", "--db", ":memory:", "--size", "100000"]
 
 # Go DB benchmark
 [[command]]
 cmd = "./bin/go_bench"
-args = ["--bench", "db-crud", "--db", ":memory:", "--size", "1000000"]
+args = ["--bench", "db-crud", "--db", ":memory:", "--size", "100000"]
 
 # Swift DB benchmark
 [[command]]
 cmd = "./bin/swift_bench"
-args = ["--bench", "db-crud", "--db", ":memory:", "--size", "1000000"]
+args = ["--bench", "db-crud", "--db", ":memory:", "--size", "100000"]
